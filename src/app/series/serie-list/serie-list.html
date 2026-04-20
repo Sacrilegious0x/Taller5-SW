@@ -1,0 +1,67 @@
+<div class="container py-5">
+  <div class="mb-4">
+    <h1 class="fs-4 fw-semibold mb-0">Listado de Series</h1>
+    <p class="text-muted small mb-0">Gabriel Moya - 202616964</p>
+  </div>
+  <div class="row g-4">
+    <!-- Tabla -->
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="ps-4">#</th>
+                  <th>Nombre</th>
+                  <th>Canal</th>
+                  <th>Temporadas</th>
+                  <th>Página Web</th>
+                  <th class="pe-4">Poster</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of series" (click)="selectSerie(s)">
+                  <td class="ps-4">{{ s.id }}</td>
+                  <td>{{ s.name }}</td>
+                  <td>{{ s.channel }}</td>
+                  <td [class.text-danger]="s.seasons > 6">{{ s.seasons }}</td>
+                  <td><a [href]="s.webpage" target="_blank" (click)="$event.stopPropagation()">Webpage</a></td>
+                  <td class="pe-4"><img [src]="s.poster" [alt]="s.name" style="max-height: 100px; object-fit: cover;" class="poster-thumb"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer bg-white border-top-0 px-4 py-3">
+          <p class="text-muted small mb-0">
+            Temporadas promedio: {{ promedioSeasons | number:'1.1-2' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card detalle -->
+    <div class="col-md-6">
+      <div *ngIf="selectedSerie; else sinSeleccion" class="card border-0 shadow-sm">
+        <img [src]="selectedSerie!.poster" class="card-img-top" [alt]="selectedSerie!.name"
+             style="max-height: 320px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title fw-semibold">{{ selectedSerie!.name }}</h5>
+          <p class="text-muted small mb-1">{{ selectedSerie!.channel }} · {{ selectedSerie!.seasons }} temporadas</p>
+          <p class="card-text">{{ selectedSerie!.description }}</p>
+          <a [href]="selectedSerie!.webpage" target="_blank" class="btn btn-dark btn-sm">
+            Ver página web
+          </a>
+        </div>
+      </div>
+
+      <ng-template #sinSeleccion>
+        <div class="card border-0 shadow-sm h-100 d-flex align-items-center justify-content-center text-center p-5">
+          <p class="text-muted">Haz clic sobre una fila para ver el detalle</p>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+</div>
